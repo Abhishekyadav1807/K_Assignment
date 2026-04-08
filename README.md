@@ -8,7 +8,7 @@ This is a MERN stack job application tracker built for an internship assignment.
 - Backend: Node.js, Express, JavaScript
 - Database: MongoDB with Mongoose
 - Authentication: JWT and bcryptjs
-- AI: OpenAI API with structured JSON output
+- AI: Gemini API with structured JSON output
 
 ## Project Structure
 
@@ -48,7 +48,7 @@ This is a MERN stack job application tracker built for an internship assignment.
 - AI-powered job description parsing
 - AI-generated resume bullet suggestions with copy buttons
 - Loading, empty, and error states on the frontend
-- Clean service-layer separation for OpenAI logic on the backend
+- Clean service-layer separation for AI logic on the backend
 
 ## Environment Variables
 
@@ -59,8 +59,8 @@ Required variables:
 - `PORT`
 - `MONGODB_URI`
 - `JWT_SECRET`
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL`
+- `GEMINI_API_KEY`
+- `GEMINI_MODEL`
 - `CLIENT_URL`
 - `VITE_API_URL`
 
@@ -131,8 +131,8 @@ Set these environment variables in Render:
 - `PORT`
 - `MONGODB_URI`
 - `JWT_SECRET`
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL`
+- `GEMINI_API_KEY`
+- `GEMINI_MODEL`
 - `CLIENT_URL`
 
 For `CLIENT_URL`, use your deployed Vercel frontend URL.
@@ -178,7 +178,7 @@ https://your-backend-name.onrender.com/api
 ## Decisions Made
 
 - I kept the project in a simple `client` and `server` structure so it is easy to explain and navigate.
-- I placed the OpenAI logic inside `server/src/services/aiService.js` so the route handlers stay small and focused.
+- I placed the AI logic inside `server/src/services/aiService.js` so the route handlers stay small and focused.
 - I used native drag and drop for the board because it was enough for the assignment and kept the frontend lighter.
 - I used React Query to handle API data and refresh the board after create, update, delete, and status changes.
 - I focused on the core assignment requirements and avoided adding stretch features before the basics were complete.
@@ -186,4 +186,4 @@ https://your-backend-name.onrender.com/api
 ## Notes
 
 - This project is focused on the exact core requirements from the assignment and does not include stretch goals like reminders, CSV export, dashboard analytics, or dark mode.
-- The OpenAI parser expects a reasonably detailed job description for better extraction quality.
+- The Gemini parser expects a reasonably detailed job description for better extraction quality.

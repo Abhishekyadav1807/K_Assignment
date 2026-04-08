@@ -1,10 +1,5 @@
-import OpenAI from "openai";
 import { z } from "zod";
 import { env } from "../config/env.js";
-
-const openai = new OpenAI({
-  apiKey: env.OPENAI_API_KEY
-});
 
 const parsedJobSchema = z.object({
   company: z.string(),
@@ -34,25 +29,79 @@ const parseStructuredResponse = (content) => {
 };
 
 export const parseJobDescription = async (jobDescription) => {
-  const completion = await openai.chat.completions.create({
-    model: env.OPENAI_MODEL,
-    response_format: {
-      type: "json_object"
-    },
-    messages: [
-      {
-        role: "system",
-        content:
-          "You extract structured hiring details from job descriptions and create concrete, role-specific resume bullets. Return valid JSON only."
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${env.GEMINI_MODEL}:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "x-goog-api-key": env.GEMINI_API_KEY,
+        "Content-Type": "application/json"
       },
-      {
-        role: "user",
-        content: `Extract the following fields from this job description and generate 3 to 5 tailored resume bullet points.\n\nReturn JSON with exactly these keys:\ncompany, role, requiredSkills, niceToHaveSkills, seniority, location, resumeSuggestions\n\nRules:\n- resumeSuggestions must be specific to the role and skills in the job description.\n- requiredSkills and niceToHaveSkills must be arrays of strings.\n- If a value is missing, use an empty string or empty array.\n\nJob description:\n${jobDescription}`
-      }
-    ]
-  });
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              {
+                text: `Extract the following fields from this job description and generate 3 to 5 tailored resume bullet points.
 
-  const messageContent = completion.choices[0]?.message?.content;
+Return JSON with exactly these keys:
+company, role, requiredSkills, niceToHaveSkills, seniority, location, resumeSuggestions
+
+Rules:
+- resumeSuggestions must be specific to the role and skills in the job description.
+- requiredSkills and niceToHaveSkills must be arrays of strings.
+- If a value is missing, use an empty string or empty array.
+
+Job description:
+${jobDescription}`
+              }
+            ]
+          }
+        ],
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              company: { type: "STRING" },
+              role: { type: "STRING" },
+              requiredSkills: {
+                type: "ARRAY",
+                items: { type: "STRING" }
+              },
+              niceToHaveSkills: {
+                type: "ARRAY",
+                items: { type: "STRING" }
+              },
+              seniority: { type: "STRING" },
+              location: { type: "STRING" },
+              resumeSuggestions: {
+                type: "ARRAY",
+                items: { type: "STRING" }
+              }
+            },
+            required: [
+              "company",
+              "role",
+              "requiredSkills",
+              "niceToHaveSkills",
+              "seniority",
+              "location",
+              "resumeSuggestions"
+            ]
+          }
+        }
+      })
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "AI parser request failed");
+  }
+
+  const data = await response.json();
+  const messageContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
   if (!messageContent) {
     throw new Error("AI parser returned an empty response");
