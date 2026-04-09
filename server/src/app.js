@@ -22,6 +22,14 @@ app.use(
 );
 app.use(express.json({ limit: "1mb" }));
 
+app.get("/", (_req, res) => {
+  res.json({
+    service: "Job Application Tracker API",
+    status: "running",
+    health: "/api/health"
+  });
+});
+
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
