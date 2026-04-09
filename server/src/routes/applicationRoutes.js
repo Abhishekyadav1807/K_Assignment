@@ -10,7 +10,7 @@ import {
   updateApplication,
   updateApplicationStatus
 } from "../services/applicationService.js";
-import { parseJobDescription } from "../services/aiService.js";
+import { AiServiceError, parseJobDescription } from "../services/aiService.js";
 import { sendError } from "../utils/http.js";
 
 export const applicationRouter = Router();
@@ -94,12 +94,8 @@ applicationRouter.post("/parse", async (req, res) => {
       return sendError(res, 400, error.issues[0]?.message ?? "Invalid job description");
     }
 
-    if (error instanceof Error) {
-      return sendError(
-        res,
-        502,
-        error.message || "Could not parse the job description. Please try again."
-      );
+    if (error instanceof AiServiceError) {
+      return sendError(res, error.statusCode, error.message);
     }
 
     return sendError(res, 502, "Could not parse the job description. Please try again.");

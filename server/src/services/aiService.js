@@ -14,6 +14,14 @@ const parsedJobSchema = z.object({
 const fallbackArray = (value) =>
   Array.isArray(value) ? value.filter((item) => typeof item === "string") : [];
 
+export class AiServiceError extends Error {
+  constructor(message, statusCode = 502) {
+    super(message);
+    this.name = "AiServiceError";
+    this.statusCode = statusCode;
+  }
+}
+
 const parseStructuredResponse = (content) => {
   const raw = JSON.parse(content);
 
@@ -96,15 +104,40 @@ ${jobDescription}`
   );
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || "AI parser request failed");
+    let providerMessage = "";
+
+    try {
+      const errorBody = await response.json();
+      providerMessage = errorBody?.error?.message || "";
+    } catch {
+      providerMessage = "";
+    }
+
+    if (response.status === 429) {
+      throw new AiServiceError(
+        "Parser quota is exhausted for the current API key. Add quota/billing or use another active key, then try again.",
+        429
+      );
+    }
+
+    if (response.status === 401 || response.status === 403) {
+      throw new AiServiceError(
+        "Parser API key is invalid or does not have access to the selected model. Check GEMINI_API_KEY and GEMINI_MODEL.",
+        401
+      );
+    }
+
+    throw new AiServiceError(
+      providerMessage || "Parser service request failed. Please try again in a moment.",
+      502
+    );
   }
 
   const data = await response.json();
   const messageContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
   if (!messageContent) {
-    throw new Error("AI parser returned an empty response");
+    throw new AiServiceError("Parser returned an empty response. Please try again.", 502);
   }
 
   return parseStructuredResponse(messageContent);
