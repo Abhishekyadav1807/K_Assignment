@@ -19,7 +19,7 @@ export const KanbanColumn = ({ title, applications, onDropCard, onOpenCard }) =>
       }
     }}
     className={cn(
-      "flex min-h-[480px] flex-col rounded-[28px] border border-ink/10 bg-gradient-to-b p-4",
+      "flex min-h-[420px] flex-col rounded-[28px] border border-ink/10 bg-gradient-to-b p-4 md:min-h-[480px]",
       accents[title]
     )}
   >

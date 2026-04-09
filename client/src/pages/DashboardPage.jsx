@@ -43,12 +43,12 @@ export const DashboardPage = () => {
   return (
     <div className="min-h-screen bg-mist text-ink">
       <Header onAddApplication={openNewModal} />
-      <main className="mx-auto max-w-7xl px-4 py-8 md:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-8">
         <section className="mb-8 rounded-[32px] border border-ink/10 bg-[linear-gradient(135deg,_rgba(216,100,60,0.10),_rgba(46,95,81,0.08))] p-6 md:p-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-pine">Dashboard</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold md:text-4xl">
+              <h2 className="mt-2 font-display text-2xl font-semibold sm:text-3xl md:text-4xl">
                 Track your applications from first submission to final outcome.
               </h2>
               <p className="mt-3 text-base leading-7 text-ink/70">
@@ -56,7 +56,7 @@ export const DashboardPage = () => {
                 as things progress.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:w-auto">
               {statuses.map((status) => (
                 <div key={status} className="rounded-2xl border border-ink/10 bg-white/80 px-4 py-3">
                   <p className="text-sm text-ink/60">{status}</p>
@@ -89,16 +89,18 @@ export const DashboardPage = () => {
             </button>
           </div>
         ) : (
-          <div className="grid gap-5 xl:grid-cols-5">
-            {statuses.map((status) => (
-              <KanbanColumn
-                key={status}
-                title={status}
-                applications={groupedApplications[status]}
-                onDropCard={handleDropCard}
-                onOpenCard={openExistingModal}
-              />
-            ))}
+          <div className="overflow-x-auto pb-2">
+            <div className="grid min-w-[1180px] gap-5 xl:min-w-0 xl:grid-cols-5">
+              {statuses.map((status) => (
+                <KanbanColumn
+                  key={status}
+                  title={status}
+                  applications={groupedApplications[status]}
+                  onDropCard={handleDropCard}
+                  onOpenCard={openExistingModal}
+                />
+              ))}
+            </div>
           </div>
         )}
       </main>

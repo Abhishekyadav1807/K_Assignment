@@ -98,10 +98,10 @@ applicationRouter.post("/parse", async (req, res) => {
       return sendError(
         res,
         502,
-        error.message || "AI could not parse the job description. Please try again."
+        error.message || "Could not parse the job description. Please try again."
       );
     }
 
-    return sendError(res, 502, "AI could not parse the job description. Please try again.");
+    return sendError(res, 502, "Could not parse the job description. Please try again.");
   }
 });

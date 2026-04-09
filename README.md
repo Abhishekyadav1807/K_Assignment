@@ -1,6 +1,6 @@
-# AI-Assisted Job Application Tracker
+# Job Application Tracker
 
-This is a MERN stack job application tracker built for an internship assignment. The app lets users manage applications on a Kanban board, paste a job description for AI-based field extraction, and review role-specific resume bullet suggestions before saving the application.
+This is a MERN stack job application tracker built for an internship assignment. The app lets users manage applications on a Kanban board, paste a job description for structured field extraction, and review role-specific resume bullet suggestions before saving the application.
 
 ## Tech Stack
 
@@ -45,10 +45,10 @@ This is a MERN stack job application tracker built for an internship assignment.
 - Kanban board with five required stages
 - Drag and drop cards between stages
 - Create, edit, view, and delete applications
-- AI-powered job description parsing
-- AI-generated resume bullet suggestions with copy buttons
+- Job description parsing with structured output
+- Tailored resume bullet suggestions with copy buttons
 - Loading, empty, and error states on the frontend
-- Clean service-layer separation for AI logic on the backend
+- Clean service-layer separation for parser logic on the backend
 
 ## Environment Variables
 
@@ -178,7 +178,7 @@ https://your-backend-name.onrender.com/api
 ## Decisions Made
 
 - I kept the project in a simple `client` and `server` structure so it is easy to explain and navigate.
-- I placed the AI logic inside `server/src/services/aiService.js` so the route handlers stay small and focused.
+- I placed the parsing logic inside `server/src/services/aiService.js` so the route handlers stay small and focused.
 - I used native drag and drop for the board because it was enough for the assignment and kept the frontend lighter.
 - I used React Query to handle API data and refresh the board after create, update, delete, and status changes.
 - I focused on the core assignment requirements and avoided adding stretch features before the basics were complete.

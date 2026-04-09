@@ -5,13 +5,13 @@ export const Header = ({ onAddApplication }) => {
 
   return (
     <header className="sticky top-0 z-10 border-b border-ink/10 bg-mist/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-8">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between md:px-8">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.24em] text-pine">Job Tracker</p>
-          <h1 className="font-display text-2xl font-semibold text-ink">Application Pipeline</h1>
+          <h1 className="font-display text-xl font-semibold text-ink sm:text-2xl">Application Pipeline</h1>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:justify-end sm:gap-3">
           <div className="hidden rounded-2xl border border-ink/10 bg-white px-4 py-2 text-sm text-ink/70 sm:block">
             {user?.email}
           </div>

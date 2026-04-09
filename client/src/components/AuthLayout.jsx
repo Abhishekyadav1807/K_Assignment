@@ -32,8 +32,8 @@ export const AuthLayout = ({
               <p className="mt-1 text-lg font-semibold text-ink">Simple Kanban stages</p>
             </div>
             <div>
-              <p className="text-sm text-ink/55">AI Support</p>
-              <p className="mt-1 text-lg font-semibold text-ink">Job parsing and bullet ideas</p>
+                    <p className="text-sm text-ink/55">Smart Assist</p>
+                    <p className="mt-1 text-lg font-semibold text-ink">JD parsing and bullet ideas</p>
             </div>
           </div>
         </div>

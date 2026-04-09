@@ -123,7 +123,7 @@ export const ApplicationModal = ({ application, isOpen, onClose }) => {
         resumeSuggestions: parsed.resumeSuggestions
       }));
     } catch (error) {
-      setErrorMessage(getErrorMessage(error, "AI could not parse the job description. Please try again."));
+      setErrorMessage(getErrorMessage(error, "Could not parse the job description. Please try again."));
     }
   };
 
@@ -132,12 +132,12 @@ export const ApplicationModal = ({ application, isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-30 flex items-start justify-center overflow-y-auto bg-ink/45 px-4 py-8">
-      <div className="w-full max-w-4xl rounded-[30px] bg-white p-6 shadow-card md:p-8">
+    <div className="fixed inset-0 z-30 flex items-start justify-center overflow-y-auto bg-ink/45 px-3 py-4 sm:px-4 sm:py-8">
+      <div className="w-full max-w-4xl rounded-[26px] bg-white p-4 shadow-card sm:rounded-[30px] sm:p-6 md:p-8">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-pine">Application</p>
-            <h2 className="mt-1 font-display text-3xl font-semibold text-ink">{heading}</h2>
+            <h2 className="mt-1 font-display text-2xl font-semibold text-ink sm:text-3xl">{heading}</h2>
           </div>
           <button
             className="rounded-full border border-ink/10 px-3 py-2 text-sm font-medium text-ink/70"
@@ -148,7 +148,7 @@ export const ApplicationModal = ({ application, isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="mt-5 grid max-h-[68vh] gap-5 overflow-y-auto pr-1 sm:max-h-[70vh] lg:grid-cols-[1.15fr_0.85fr]">
           <div className="space-y-4">
             <div className="rounded-3xl border border-ink/10 bg-mist/60 p-4">
               <div className="mb-3 flex items-center justify-between">
@@ -163,7 +163,7 @@ export const ApplicationModal = ({ application, isOpen, onClose }) => {
                 </button>
               </div>
               <textarea
-                className="min-h-48 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3 outline-none focus:border-pine"
+                className="min-h-40 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3 outline-none focus:border-pine sm:min-h-48"
                 value={form.jdText}
                 onChange={(event) => setForm((current) => ({ ...current, jdText: event.target.value }))}
                 placeholder="Paste the job description here to fill the fields and generate resume suggestions."
@@ -327,7 +327,7 @@ export const ApplicationModal = ({ application, isOpen, onClose }) => {
         </div>
 
         {errorMessage ? (
-          <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div className="mt-6 max-h-44 overflow-y-auto break-words rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {errorMessage}
           </div>
         ) : null}
